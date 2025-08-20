@@ -38,10 +38,12 @@
     "header": {
       "type": "header",
       "settings": {
+        "enable_mega_menu": true,
+        "mega_menu_image_size": 300,
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu": "mega-menu",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "color_scheme": "scheme-1",

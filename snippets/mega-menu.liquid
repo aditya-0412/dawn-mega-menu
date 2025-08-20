@@ -1,0 +1,59 @@
+<script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
+
+{% liquid
+  assign image_size = image_size | default: 300
+  assign default_img = ''
+  assign default_title = ''
+%}
+
+<div class="mega-menu" role="region" aria-label="{{ link.title | escape }}">
+  <div class="mega-menu__panel">
+    <div class="mega-menu__left" role="navigation" aria-label="{{ link.title | escape }} sub-links">
+      <ul class="mega-menu__nav" role="list">
+        {%- for child in link.links -%}
+          {%- liquid
+            assign img_url = ''
+            assign is_collection = false
+            if child.type == 'collection_link' and child.object and child.object.image
+              assign img_url = child.object.image | image_url: width: image_size
+              assign is_collection = true
+            endif
+
+            if default_img == '' and is_collection
+              assign default_img = img_url
+              assign default_title = child.title | escape
+            endif
+          -%}
+          <li class="mega-menu__nav-item{% if forloop.first %} is-active{% endif %}">
+            <a
+              href="{{ child.url }}"
+              class="mega-menu__nav-link"
+              data-image="{{ img_url }}"
+              data-title="{{ child.title | escape }}"
+            >
+              {{ child.title | escape }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="mega-menu__right">
+      <div class="mega-menu__image-box">
+        {% if default_img != '' %}
+          <img
+            class="mega-menu__display-image"
+            src="{{ default_img }}"
+            alt="{{ default_title | escape }}"
+            loading="lazy"
+            width=""
+            height=""
+          >
+          {% comment %} <div class="mega-menu__display-caption">{{ default_title }}</div> {% endcomment %}
+        {% else %}
+          <div class="mega-menu__placeholder">No image available</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
