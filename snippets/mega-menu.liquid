@@ -1,12 +1,15 @@
-<script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
-
 {% liquid
   assign image_size = image_size | default: 300
   assign default_img = ''
   assign default_title = ''
 %}
 
-<div class="mega-menu" role="region" aria-label="{{ link.title | escape }}">
+<div
+  class="mega-menu"
+  style="visibility:hidden; opacity:0; pointer-events:none;"
+  role="region"
+  aria-label="{{ link.title | escape }}"
+>
   <div class="mega-menu__panel">
     <div class="mega-menu__left" role="navigation" aria-label="{{ link.title | escape }} sub-links">
       <ul class="mega-menu__nav" role="list">
