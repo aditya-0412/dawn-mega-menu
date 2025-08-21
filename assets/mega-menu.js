@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const parentMenus = document.querySelectorAll(".list-menu__item--has-mega");
   if (!parentMenus.length) return;
 
+  // Normalize path for consistent comparison
   const normalizePath = (url) => {
+    if (!url) return "";
     try {
       return new URL(url, location.origin).pathname.replace(/\/$/, "");
     } catch {
-      return (url || "").replace(/\/$/, "");
+      return url.replace(/\/$/, "");
     }
   };
 
@@ -18,13 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const displayImg = panel.querySelector(".mega-menu__display-image");
     const caption = panel.querySelector(".mega-menu__display-caption");
-    const navLinks = Array.from(panel.querySelectorAll(".mega-menu__nav-link"));
+    const navLinks = [...panel.querySelectorAll(".mega-menu__nav-link")];
     if (!navLinks.length) return;
 
     const defaultSrc = displayImg?.dataset.src || displayImg?.src || "";
     const defaultCaption = caption?.textContent || "";
 
-    // --- Core state ---
     let persistedLink =
       navLinks.find(
         (l) => normalizePath(l.getAttribute("href")) === currentPath
@@ -34,43 +35,42 @@ document.addEventListener("DOMContentLoaded", () => {
       ) ||
       navLinks[0];
 
+    // Apply active state
     const setActive = (link) => {
       if (!link) return;
 
-      // swap image
       const newSrc = link.dataset.image || defaultSrc;
       if (displayImg && newSrc && displayImg.src !== newSrc) {
         displayImg.src = newSrc;
       }
 
-      // swap caption
-      if (caption)
+      if (caption) {
         caption.textContent =
           link.dataset.title || link.textContent.trim() || defaultCaption;
+      }
 
-      // toggle active class
       navLinks.forEach((l) => l.parentElement.classList.remove("is-active"));
       link.parentElement.classList.add("is-active");
     };
 
-    // initialize with persisted
+    // Initialize
     setActive(persistedLink);
 
-    // hover/focus preview
+    // Hover/focus preview
     const previewHandler = (e) => setActive(e.currentTarget);
     navLinks.forEach((link) => {
-      link.addEventListener("mouseenter", previewHandler);
-      link.addEventListener("focus", previewHandler);
+      link.addEventListener("mouseenter", previewHandler, { passive: true });
+      link.addEventListener("focus", previewHandler, { passive: true });
     });
 
-    // revert logic
+    // Revert logic
     const revert = () => setActive(persistedLink);
-
     parent.addEventListener("mouseleave", revert);
-    parent.addEventListener(
-      "focusout",
-      (e) => !parent.contains(e.relatedTarget) && revert()
-    );
+    parent.addEventListener("focusout", (e) => {
+      if (!parent.contains(e.relatedTarget)) revert();
+    });
+
+    // Escape closes menu
     parent.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         revert();
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // accessibility open
+    // Accessibility: open on focus
     parent.addEventListener("focusin", () => parent.classList.add("is-open"));
   });
 });

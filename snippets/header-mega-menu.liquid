@@ -1,7 +1,18 @@
 <nav class="header__inline-menu" aria-label="Header menu">
   <ul class="list-menu list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
-      <li class="list-menu__item{% if link.links != blank %} list-menu__item--has-mega{% endif %}{% if link.current %} is-active{% endif %}">
+      {%- assign has_children = false -%}
+      {%- if link.links != blank -%}
+        {%- assign has_children = true -%}
+      {%- endif -%}
+
+      <li
+        class="
+          list-menu__item
+          {%- if has_children %} list-menu__item--has-mega{% endif -%}
+          {%- if link.current %} is-active{% endif -%}
+        "
+      >
         <a
           id="HeaderMenu-{{ link.handle }}"
           href="{{ link.url }}"
@@ -9,12 +20,12 @@
           {% if link.current %}
             aria-current="page"
           {% endif %}
-          aria-haspopup="{% if link.links != blank %}true{% else %}false{% endif %}"
+          aria-haspopup="{{ has_children }}"
         >
           {{ link.title | escape }}
         </a>
 
-        {%- if link.links != blank -%}
+        {%- if has_children -%}
           {% render 'mega-menu', link: link, image_size: section.settings.mega_menu_image_size %}
         {%- endif -%}
       </li>
