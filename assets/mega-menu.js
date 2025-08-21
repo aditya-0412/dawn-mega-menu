@@ -21,12 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!panel) return;
 
     const displayImg = panel.querySelector(".tr-mega-menu__display-image");
-    const caption = panel.querySelector(".tr-mega-menu__display-caption");
     const navLinks = [...panel.querySelectorAll(".tr-mega-menu__nav-link")];
     if (!navLinks.length) return;
 
     const defaultSrc = displayImg?.dataset.src || displayImg?.src || "";
-    const defaultCaption = caption?.textContent || "";
 
     let persistedLink =
       navLinks.find(
@@ -44,11 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const newSrc = link.dataset.image || defaultSrc;
       if (displayImg && newSrc && displayImg.src !== newSrc) {
         displayImg.src = newSrc;
-      }
-
-      if (caption) {
-        caption.textContent =
-          link.dataset.title || link.textContent.trim() || defaultCaption;
       }
 
       navLinks.forEach((l) => l.parentElement.classList.remove("is-active"));
