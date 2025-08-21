@@ -1,5 +1,5 @@
-<nav class="header__inline-menu" aria-label="Header menu">
-  <ul class="list-menu list-menu--inline" role="list">
+<nav class="tr-header__inline-menu" aria-label="Header menu">
+  <ul class="tr-list-menu tr-list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
       {%- assign has_children = false -%}
       {%- if link.links != blank -%}
@@ -8,15 +8,15 @@
 
       <li
         class="
-          list-menu__item
-          {%- if has_children %} list-menu__item--has-mega{% endif -%}
+          tr-list-menu__item
+          {%- if has_children %} tr-list-menu__item--has-mega{% endif -%}
           {%- if link.current %} is-active{% endif -%}
         "
       >
         <a
           id="HeaderMenu-{{ link.handle }}"
           href="{{ link.url }}"
-          class="list-menu__link link link--text focus-inset"
+          class="tr-list-menu__link tr-link tr-link--text focus-inset"
           {% if link.current %}
             aria-current="page"
           {% endif %}

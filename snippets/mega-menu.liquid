@@ -6,11 +6,10 @@
   assign default_title = ''
 %}
 
-<div class="mega-menu" role="region" aria-label="{{ link.title | escape }}">
-  <div class="mega-menu__panel">
-    <!-- LEFT: Navigation links -->
-    <nav class="mega-menu__left" aria-label="{{ link.title | escape }} sub-links">
-      <ul class="mega-menu__nav" role="list">
+<div class="tr-mega-menu" role="region" aria-label="{{ link.title | escape }}">
+  <div class="tr-mega-menu__panel">
+    <nav class="tr-mega-menu__left" aria-label="{{ link.title | escape }} sub-links">
+      <ul class="tr-mega-menu__nav" role="list">
         {%- for child in link.links -%}
           {%- liquid
             assign img_url = ''
@@ -24,10 +23,10 @@
             endif
           -%}
           {%- if child.object.all_products_count > 0 -%}
-            <li class="mega-menu__nav-item{% if forloop.first %} is-active{% endif %}">
+            <li class="tr-mega-menu__nav-item{% if forloop.first %} is-active{% endif %}">
               <a
                 href="{{ child.url }}"
-                class="mega-menu__nav-link"
+                class="tr-mega-menu__nav-link"
                 data-image="{{ img_url }}"
                 data-title="{{ child.title | escape }}"
               >
@@ -39,21 +38,20 @@
       </ul>
     </nav>
 
-    <!-- RIGHT: Dynamic image -->
-    <div class="mega-menu__right">
-      <div class="mega-menu__image-box">
+    <div class="tr-mega-menu__right">
+      <div class="tr-mega-menu__image-box">
         {% if default_img != '' %}
           <img
             width=""
             height=""
-            class="mega-menu__display-image"
+            class="tr-mega-menu__display-image"
             src="{{ default_img }}"
             alt="{{ default_title | escape }}"
             loading="lazy"
           >
-          {% comment %} <div class="mega-menu__display-caption">{{ default_title }}</div> {% endcomment %}
+          {% comment %} <div class="tr-mega-menu__display-caption">{{ default_title }}</div> {% endcomment %}
         {% else %}
-          <div class="mega-menu__placeholder" role="img" aria-label="No image available">No image available</div>
+          <div class="tr-mega-menu__placeholder" role="img" aria-label="No image available">No image available</div>
         {% endif %}
       </div>
     </div>

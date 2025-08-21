@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const parentMenus = document.querySelectorAll(".list-menu__item--has-mega");
+  const parentMenus = document.querySelectorAll(
+    ".tr-list-menu__item--has-mega"
+  );
   if (!parentMenus.length) return;
 
   // Normalize path for consistent comparison
@@ -15,12 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentPath = normalizePath(location.pathname);
 
   parentMenus.forEach((parent) => {
-    const panel = parent.querySelector(".mega-menu");
+    const panel = parent.querySelector(".tr-mega-menu");
     if (!panel) return;
 
-    const displayImg = panel.querySelector(".mega-menu__display-image");
-    const caption = panel.querySelector(".mega-menu__display-caption");
-    const navLinks = [...panel.querySelectorAll(".mega-menu__nav-link")];
+    const displayImg = panel.querySelector(".tr-mega-menu__display-image");
+    const caption = panel.querySelector(".tr-mega-menu__display-caption");
+    const navLinks = [...panel.querySelectorAll(".tr-mega-menu__nav-link")];
     if (!navLinks.length) return;
 
     const defaultSrc = displayImg?.dataset.src || displayImg?.src || "";
@@ -31,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (l) => normalizePath(l.getAttribute("href")) === currentPath
       ) ||
       panel.querySelector(
-        ".mega-menu__nav-item.is-active .mega-menu__nav-link"
+        ".tr-mega-menu__nav-item.is-active .tr-mega-menu__nav-link"
       ) ||
       navLinks[0];
 
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "Escape") {
         revert();
         parent.classList.remove("is-open");
-        parent.querySelector(".list-menu__link, .link")?.focus();
+        parent.querySelector(".tr-list-menu__link, .tr-link")?.focus();
       }
     });
 
